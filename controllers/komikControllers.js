@@ -10,3 +10,16 @@ async function getAllKomik(req, res) {
   }
 }
 
+async function getKomikById(req, res) {
+  const { id } = req.params;
+  try {
+    const komik = await db.Komik.findByPk(id);
+    if (!komik) {
+      // Kode di bawah ini terpotong di layar, ini adalah kelanjutan yang umum digunakan:
+      return res.status(404).json({ error: 'Komik not found' }); 
+    }
+  } catch (err) {
+    console.error('Error fetching komik by id:', err.message);
+    res.status(500).json({ error: 'Failed to fetch komik' });
+  }
+}
